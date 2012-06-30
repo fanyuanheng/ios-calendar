@@ -43,13 +43,13 @@
     CGFloat _weekBarHeight;
 }
 
-@property(nonatomic, retain) NSCalendar *calendar;
+@property(nonatomic) NSCalendar *calendar;
 
-@property(nonatomic, assign) id<CXCalendarViewDelegate> delegate;
+@property(nonatomic, unsafe_unretained) id<CXCalendarViewDelegate> delegate;
 
-@property(nonatomic, retain) NSDate *selectedDate;
+@property(nonatomic) NSDate *selectedDate;
 
-@property(nonatomic, retain) NSDate *displayedDate;
+@property(nonatomic) NSDate *displayedDate;
 @property(nonatomic, readonly) NSUInteger displayedYear;
 @property(nonatomic, readonly) NSUInteger displayedMonth;
 
@@ -59,14 +59,14 @@
 - (void) reset;
 
 // UI
-@property(readonly) UIView *monthBar;
-@property(readonly) UILabel *monthLabel;
-@property(readonly) UIButton *monthBackButton;
-@property(readonly) UIButton *monthForwardButton;
-@property(readonly) UIView *weekdayBar;
-@property(readonly) NSArray *weekdayNameLabels;
-@property(readonly) UIView *gridView;
-@property(readonly) NSArray *dayCells;
+@property(unsafe_unretained, readonly) UIView *monthBar;
+@property(unsafe_unretained, readonly) UILabel *monthLabel;
+@property(unsafe_unretained, readonly) UIButton *monthBackButton;
+@property(unsafe_unretained, readonly) UIButton *monthForwardButton;
+@property(unsafe_unretained, readonly) UIView *weekdayBar;
+@property(unsafe_unretained, readonly) NSArray *weekdayNameLabels;
+@property(unsafe_unretained, readonly) UIView *gridView;
+@property(unsafe_unretained, readonly) NSArray *dayCells;
 
 @property(assign) CGFloat monthBarHeight;
 @property(assign) CGFloat weekBarHeight;

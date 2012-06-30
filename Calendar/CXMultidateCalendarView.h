@@ -25,10 +25,10 @@
     NSDate *_endDate;
 }
 
-@property(nonatomic, assign) id<CXMultidateCalendarViewDelegate> delegate;
+@property(nonatomic, unsafe_unretained) id<CXMultidateCalendarViewDelegate> delegate;
 
-@property(nonatomic, retain) NSDate *startDate;
-@property(nonatomic, retain) NSDate *endDate;
+@property(nonatomic) NSDate *startDate;
+@property(nonatomic) NSDate *endDate;
 
 - (void) reset;
 

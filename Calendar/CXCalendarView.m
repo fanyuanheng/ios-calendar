@@ -35,25 +35,17 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
     return self;
 }
 
-- (void) dealloc {
-    [_calendar release];
-    [_selectedDate release];
-    [_displayedDate release];
-
-    [super dealloc];
-}
 
 - (NSCalendar *) calendar {
     if (!_calendar) {
-        _calendar = [[NSCalendar currentCalendar] retain];
+        _calendar = [NSCalendar currentCalendar];
     }
     return _calendar;
 }
 
 - (void) setCalendar: (NSCalendar *) calendar {
     if (_calendar != calendar) {
-        [_calendar release];
-        _calendar = [calendar retain];
+        _calendar = calendar;
         [self setNeedsLayout];
     }
 }
@@ -64,8 +56,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 
 - (void) setSelectedDate: (NSDate *) selectedDate {
     if (![selectedDate isEqual: _selectedDate]) {
-        [_selectedDate release];
-        _selectedDate = [selectedDate retain];
+        _selectedDate = selectedDate;
 
         for (CXCalendarCellView *cellView in self.dayCells) {
             cellView.selected = NO;
@@ -85,10 +76,9 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 
 - (void) setDisplayedDate: (NSDate *) displayedDate {
     if (_displayedDate != displayedDate) {
-        [_displayedDate release];
-        _displayedDate = [displayedDate retain];
+        _displayedDate = displayedDate;
 
-        NSString *monthName = [[[[NSDateFormatter new] autorelease] standaloneMonthSymbols] objectAtIndex: self.displayedMonth - 1];
+        NSString *monthName = [[[NSDateFormatter new] standaloneMonthSymbols] objectAtIndex: self.displayedMonth - 1];
         self.monthLabel.text = [NSString stringWithFormat: @"%@ %d", NSLocalizedString(monthName, @""), self.displayedYear];
 
         [self setNeedsLayout];
@@ -134,13 +124,13 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 }
 
 - (void) monthForward {
-    NSDateComponents *monthStep = [[NSDateComponents new] autorelease];
+    NSDateComponents *monthStep = [NSDateComponents new];
     monthStep.month = 1;
     self.displayedDate = [self.calendar dateByAddingComponents: monthStep toDate: self.displayedDate options: 0];
 }
 
 - (void) monthBack {
-    NSDateComponents *monthStep = [[NSDateComponents new] autorelease];
+    NSDateComponents *monthStep = [NSDateComponents new];
     monthStep.month = -1;
     self.displayedDate = [self.calendar dateByAddingComponents: monthStep toDate: self.displayedDate options: 0];
 }
@@ -223,7 +213,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 
 - (UIView *) monthBar {
     if (!_monthBar) {
-        _monthBar = [[[UIView alloc] init] autorelease];
+        _monthBar = [[UIView alloc] init];
         _monthBar.backgroundColor = [UIColor blueColor];
         _monthBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
         [self addSubview: _monthBar];
@@ -233,7 +223,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 
 - (UILabel *) monthLabel {
     if (!_monthLabel) {
-        _monthLabel = [[[UILabel alloc] init] autorelease];
+        _monthLabel = [[UILabel alloc] init];
         _monthLabel.font = [UIFont systemFontOfSize: [UIFont buttonFontSize]];
         _monthLabel.textColor = [UIColor whiteColor];
         _monthLabel.textAlignment = UITextAlignmentCenter;
@@ -246,7 +236,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 
 - (UIButton *) monthBackButton {
     if (!_monthBackButton) {
-        _monthBackButton = [[[UIButton alloc] init] autorelease];
+        _monthBackButton = [[UIButton alloc] init];
         [_monthBackButton setTitle: @"<" forState:UIControlStateNormal];
         _monthBackButton.titleLabel.font = [UIFont systemFontOfSize: [UIFont buttonFontSize]];
         _monthBackButton.titleLabel.textColor = [UIColor whiteColor];
@@ -260,7 +250,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 
 - (UIButton *) monthForwardButton {
     if (!_monthForwardButton) {
-        _monthForwardButton = [[[UIButton alloc] init] autorelease];
+        _monthForwardButton = [[UIButton alloc] init];
         [_monthForwardButton setTitle: @">" forState:UIControlStateNormal];
         _monthForwardButton.titleLabel.font = [UIFont systemFontOfSize: [UIFont buttonFontSize]];
         _monthForwardButton.titleLabel.textColor = [UIColor whiteColor];
@@ -274,7 +264,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 
 - (UIView *) weekdayBar {
     if (!_weekdayBar) {
-        _weekdayBar = [[[UIView alloc] init] autorelease];
+        _weekdayBar = [[UIView alloc] init];
         _weekdayBar.backgroundColor = [UIColor clearColor];
     }
     return _weekdayBar;
@@ -283,7 +273,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 - (NSArray *) weekdayNameLabels {
     if (!_weekdayNameLabels) {
         NSMutableArray *labels = [NSMutableArray array];
-        NSDateFormatter *dateFromatter = [[[NSDateFormatter alloc] init] autorelease];
+        NSDateFormatter *dateFromatter = [[NSDateFormatter alloc] init];
         dateFromatter.calendar = self.calendar;
         for (NSUInteger i = self.calendar.firstWeekday; i < self.calendar.firstWeekday + 7; ++i) {
             NSUInteger index = (i - 1) < 7 ? (i - 1) : ((i - 1) - 7);
@@ -304,7 +294,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 
 - (UIView *) gridView {
     if (!_gridView) {
-        _gridView = [[[UIView alloc] init] autorelease];
+        _gridView = [[UIView alloc] init];
         _gridView.backgroundColor = [UIColor clearColor];
         _gridView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self addSubview: _gridView];
@@ -316,7 +306,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
     if (!_dayCells) {
         NSMutableArray *cells = [NSMutableArray array];
         for (NSUInteger i = 1; i <= 31; ++i) {
-            CXCalendarCellView *cell = [[CXCalendarCellView new] autorelease];
+            CXCalendarCellView *cell = [CXCalendarCellView new];
             cell.backgroundColor = [UIColor clearColor];
             [cell setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [cell setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
